@@ -1,3 +1,4 @@
 theme: jekyll-theme-minimal
 title: My Portfolio
-description: A responsive and animated portfolio website 
+description: A responsive and animated portfolio website
+baseurl: "/mybog" 
