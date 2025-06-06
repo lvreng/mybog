@@ -840,25 +840,25 @@ async function createMarqueeContent() {
   
   const imageUrls = {
     top: [
-      'assets/img/portfolio/2025--126.jpg',
-      'assets/img/portfolio/2025--122.jpg',
-      'assets/img/portfolio/2025--120.jpg',
-      'assets/img/portfolio/2025--29.jpg',
-      'assets/img/portfolio/2025--11.jpg',
-      'assets/img/portfolio/DNA-66.jpg',
-      'assets/img/portfolio/DNA-26.jpg',
-      'assets/img/portfolio/1717351080835.jpg'
+      'assets/img/portfolio/1 (1).jpg',
+      'assets/img/portfolio/1 (2).jpg',
+      'assets/img/portfolio/1 (3).jpg',
+      'assets/img/portfolio/1 (4).jpg',
+      'assets/img/portfolio/1 (5).jpg',
+      'assets/img/portfolio/1 (6).jpg',
+      'assets/img/portfolio/1 (7).jpg',
+      'assets/img/portfolio/1 (8).jpg'
     ],
     bottom: [
-      'assets/img/portfolio/1717351088255.jpg',
-      'assets/img/portfolio/CWT06511.jpg',
-      'assets/img/portfolio/CWT06468.jpg',
-      'assets/img/portfolio/CWT06387.jpg',
-      'assets/img/portfolio/CWT06344.jpg',
-      'assets/img/portfolio/CWT06339.jpg',
-      'assets/img/portfolio/CWT06145.jpg',
-      'assets/img/portfolio/(15).jpg',
-      'assets/img/portfolio/(14).jpg'
+      'assets/img/portfolio/1 (9).jpg',
+      'assets/img/portfolio/1 (10).jpg',
+      'assets/img/portfolio/1 (11).jpg',
+      'assets/img/portfolio/1 (12).jpg',
+      'assets/img/portfolio/1 (13).jpg',
+      'assets/img/portfolio/1 (14).jpg',
+      'assets/img/portfolio/1 (15).jpg',
+      'assets/img/portfolio/1 (16).jpg',
+      'assets/img/portfolio/1 (17).jpg'
     ]
   };
 
@@ -1006,4 +1006,84 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
     closeModal();
   }
+});
+
+/*=============== 图片轮播功能 ===============*/
+async function initCarousel() {
+    const carouselTrack = document.querySelector('.carousel__track');
+    if (!carouselTrack) return;
+
+    try {
+        // 使用与项目与作品相同的图片列表
+        const imageUrls = {
+            top: [
+                'assets/img/portfolio/1 (1).jpg',
+                'assets/img/portfolio/1 (2).jpg',
+                'assets/img/portfolio/1 (3).jpg',
+                'assets/img/portfolio/1 (4).jpg',
+                'assets/img/portfolio/1 (5).jpg',
+                'assets/img/portfolio/1 (6).jpg',
+                'assets/img/portfolio/1 (7).jpg',
+                'assets/img/portfolio/1 (8).jpg'
+            ],
+            bottom: [
+                'assets/img/portfolio/1 (9).jpg',
+                'assets/img/portfolio/1 (10).jpg',
+                'assets/img/portfolio/1 (11).jpg',
+                'assets/img/portfolio/1 (12).jpg',
+                'assets/img/portfolio/1 (13).jpg',
+                'assets/img/portfolio/1 (14).jpg',
+                'assets/img/portfolio/1 (15).jpg',
+                'assets/img/portfolio/1 (16).jpg',
+                'assets/img/portfolio/1 (17).jpg'
+            ]
+        };
+
+        // 预加载所有图片
+        const preloadedImages = {
+            top: await Promise.all(imageUrls.top.map(src => preloadImage(src))),
+            bottom: await Promise.all(imageUrls.bottom.map(src => preloadImage(src)))
+        };
+
+        // 创建两行轮播
+        for (const [rowType, urls] of Object.entries(preloadedImages)) {
+            const row = document.createElement('div');
+            row.className = 'marquee-row';
+            
+            const content = document.createElement('div');
+            content.className = `marquee-content ${rowType === 'bottom' ? 'reverse' : ''}`;
+            
+            const fragment = document.createDocumentFragment();
+            
+            // 创建图片元素
+            urls.forEach(imgSrc => {
+                const item = document.createElement('div');
+                item.className = 'marquee-item';
+                
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = 'Portfolio Image';
+                img.loading = 'lazy';
+                
+                item.appendChild(img);
+                fragment.appendChild(item);
+            });
+            
+            // 添加原始图片组
+            content.appendChild(fragment.cloneNode(true));
+            // 添加克隆的图片组用于无缝循环
+            content.appendChild(fragment.cloneNode(true));
+            
+            row.appendChild(content);
+            carouselTrack.appendChild(row);
+        }
+    } catch (error) {
+        console.error('Error initializing carousel:', error);
+        carouselTrack.innerHTML = '<div class="loading">加载失败，请刷新页面重试</div>';
+    }
+}
+
+// 在页面加载完成后初始化轮播
+document.addEventListener('DOMContentLoaded', () => {
+    initCarousel();
 });
