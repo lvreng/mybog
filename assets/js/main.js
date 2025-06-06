@@ -847,18 +847,22 @@ async function createMarqueeContent() {
       'assets/img/portfolio/1 (5).jpg',
       'assets/img/portfolio/1 (6).jpg',
       'assets/img/portfolio/1 (7).jpg',
-      'assets/img/portfolio/1 (8).jpg'
-    ],
-    bottom: [
+      'assets/img/portfolio/1 (8).jpg',
       'assets/img/portfolio/1 (9).jpg',
       'assets/img/portfolio/1 (10).jpg',
-      'assets/img/portfolio/1 (11).jpg',
+      'assets/img/portfolio/1 (11).jpg'
+    ],
+    bottom: [
       'assets/img/portfolio/1 (12).jpg',
       'assets/img/portfolio/1 (13).jpg',
       'assets/img/portfolio/1 (14).jpg',
       'assets/img/portfolio/1 (15).jpg',
       'assets/img/portfolio/1 (16).jpg',
-      'assets/img/portfolio/1 (17).jpg'
+      'assets/img/portfolio/1 (17).jpg',
+      'assets/img/portfolio/1 (18).jpg',
+      'assets/img/portfolio/1 (19).jpg',
+      'assets/img/portfolio/1 (20).jpg',
+      'assets/img/portfolio/1 (21).jpg'
     ]
   };
 
@@ -1024,18 +1028,22 @@ async function initCarousel() {
                 'assets/img/portfolio/1 (5).jpg',
                 'assets/img/portfolio/1 (6).jpg',
                 'assets/img/portfolio/1 (7).jpg',
-                'assets/img/portfolio/1 (8).jpg'
-            ],
-            bottom: [
+                'assets/img/portfolio/1 (8).jpg',
                 'assets/img/portfolio/1 (9).jpg',
                 'assets/img/portfolio/1 (10).jpg',
-                'assets/img/portfolio/1 (11).jpg',
+                'assets/img/portfolio/1 (11).jpg'
+            ],
+            bottom: [
                 'assets/img/portfolio/1 (12).jpg',
                 'assets/img/portfolio/1 (13).jpg',
                 'assets/img/portfolio/1 (14).jpg',
                 'assets/img/portfolio/1 (15).jpg',
                 'assets/img/portfolio/1 (16).jpg',
-                'assets/img/portfolio/1 (17).jpg'
+                'assets/img/portfolio/1 (17).jpg',
+                'assets/img/portfolio/1 (18).jpg',
+                'assets/img/portfolio/1 (19).jpg',
+                'assets/img/portfolio/1 (20).jpg',
+                'assets/img/portfolio/1 (21).jpg'
             ]
         };
 
@@ -1086,4 +1094,32 @@ async function initCarousel() {
 // 在页面加载完成后初始化轮播
 document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
+});
+
+// 可展开卡片交互
+document.addEventListener('DOMContentLoaded', function() {
+    const expandableCard = document.querySelector('.expandable-card');
+    if (!expandableCard) return;
+
+    let isExpanded = false;
+
+    expandableCard.addEventListener('click', function() {
+        isExpanded = !isExpanded;
+        expandableCard.classList.toggle('expanded');
+
+        // 如果展开，添加点击其他区域关闭的功能
+        if (isExpanded) {
+            const closeOnClickOutside = function(e) {
+                if (!expandableCard.contains(e.target)) {
+                    isExpanded = false;
+                    expandableCard.classList.remove('expanded');
+                    document.removeEventListener('click', closeOnClickOutside);
+                }
+            };
+            // 延迟添加事件监听，避免立即触发
+            setTimeout(() => {
+                document.addEventListener('click', closeOnClickOutside);
+            }, 100);
+        }
+    });
 });

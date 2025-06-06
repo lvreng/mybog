@@ -2380,3 +2380,149 @@ body.light-theme .cards__box.map-container .map-light {
     transform: scale(1.2);
     filter: brightness(1.2);
 }
+
+/* 可展开卡片样式 */
+.expandable-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.expandable-card.expanded {
+    transform: scale(1.3);
+    z-index: 100;
+}
+
+.expandable-card .orbiting-container {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandable-card.expanded .orbiting-container {
+    transform: translate(-30%, -30%) scale(1.8);
+    opacity: 0.2;
+}
+
+.expanded-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.expandable-card.expanded .expanded-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandable-card.expanded .skills-grid {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.skills-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: var(--small-font-size);
+    color: var(--text-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.skill-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--first-color);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandable-card.expanded .skill-item {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* 展开动画延迟 */
+.expandable-card.expanded .skill-item:nth-child(1) { transition-delay: 0.1s; }
+.expandable-card.expanded .skill-item:nth-child(2) { transition-delay: 0.15s; }
+.expandable-card.expanded .skill-item:nth-child(3) { transition-delay: 0.2s; }
+.expandable-card.expanded .skill-item:nth-child(4) { transition-delay: 0.25s; }
+.expandable-card.expanded .skill-item:nth-child(5) { transition-delay: 0.3s; }
+.expandable-card.expanded .skill-item:nth-child(6) { transition-delay: 0.35s; }
+.expandable-card.expanded .skill-item:nth-child(7) { transition-delay: 0.4s; }
+.expandable-card.expanded .skill-item:nth-child(8) { transition-delay: 0.45s; }
+.expandable-card.expanded .skill-item:nth-child(9) { transition-delay: 0.5s; }
+.expandable-card.expanded .skill-item:nth-child(10) { transition-delay: 0.55s; }
+
+/* 收起动画延迟 */
+.expandable-card:not(.expanded) .skill-item:nth-child(10) { transition-delay: 0.1s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(9) { transition-delay: 0.15s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(8) { transition-delay: 0.2s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(7) { transition-delay: 0.25s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(6) { transition-delay: 0.3s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(5) { transition-delay: 0.35s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(4) { transition-delay: 0.4s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(3) { transition-delay: 0.45s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(2) { transition-delay: 0.5s; }
+.expandable-card:not(.expanded) .skill-item:nth-child(1) { transition-delay: 0.55s; }
+
+.skill-item:hover {
+    transform: translateX(10px);
+    color: var(--first-color);
+}
+
+.skill-item:hover .skill-dot {
+    transform: scale(1.5);
+    background-color: var(--first-color);
+}
+
+/* 添加背景模糊效果 */
+.expandable-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandable-card.expanded::before {
+    opacity: 1;
+}
